@@ -2,9 +2,8 @@ node('ben') {
    withEnv([
       'DEVICE=zerofltecan', 
       'LOS_PATH=/home/benlue/android/lineage',
-      'LOCAL_MANIFESTS_URL=https://raw.githubusercontent.com/los-legacy/local_manifests/lineage-17.1/zero.xml', 
+      'LOCAL_MANIFESTS_URL=https://raw.githubusercontent.com/los-legacy/local_manifests/lineage-17.1/zero.xml',
       'LOCAL_MANIFESTS_PATH=.repo/local_manifests', 
-      'BRANCH=lineage-17.1'
    ]) {
       stage('Preparation') { // for display purposes
          sh "rm -rf $env.LOS_PATH/$env.LOCAL_MANIFESTS_PATH/*"
@@ -15,7 +14,7 @@ node('ben') {
          sh "cd $env.LOS_PATH; export PATH=~/bin:$PATH; repo sync --no-clone-bundle --force-sync"
       }
       stage('Build') { // for display purposes
-         echo "Build"
+         sh "cd $env.LOS_PATH; export PATH=~/bin:$PATH; make clean; source build/envsetup.sh; lunch lineage_$env.DEVICE-userdebug;m"
       }
       stage('OTA Upload') { // for display purposes
          echo "Upload"
